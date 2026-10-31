@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="th" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ฝึกทำข้อสอบ Operating Systems</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧠</text></svg>">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="logo">OS</span> ฝึกทำข้อสอบ Operating Systems</div>
+  <button id="btnTheme" class="iconbtn" title="สลับธีมสว่าง/มืด">◐</button>
+</header>
+
+<!-- ============ หน้าเริ่มต้น ============ -->
+<main id="home" class="screen active">
+  <section class="hero">
+    <h1>ข้อสอบ 110 ข้อ สุ่มใหม่ทุกครั้ง</h1>
+    <p class="lead">
+      ชุดข้อสอบสร้างขึ้นจากเนื้อหาทั้ง 8 บทในสไลด์ ทุกครั้งที่กดเริ่มทำ ระบบจะสุ่มทั้ง
+      <b>ชุดคำถาม ลำดับข้อ ลำดับตัวเลือก และตัวเลขในโจทย์คำนวณ</b> ขึ้นมาใหม่ทั้งหมด
+      พร้อมเฉลยและคำอธิบายละเอียดทุกข้อ
+    </p>
+  </section>
+
+  <div id="resumeBox" class="resume" style="display:none"></div>
+
+  <section class="card">
+    <h2>ขอบเขตเนื้อหา</h2>
+    <div class="scope">
+      <div class="sc"><span class="scn">1</span><div><b>Introduction</b><small>บทบาทของ OS (Referee / Illusionist / Glue), เกณฑ์ประเมิน, Design tradeoffs, วิวัฒนาการของ OS</small></div></div>
+      <div class="sc"><span class="scn">2</span><div><b>The Kernel Abstraction</b><small>Dual-mode, Privileged instructions, Process/PCB/Address space, Mode switch, Interrupt, Kernel stack, Syscall handler</small></div></div>
+      <div class="sc"><span class="scn">3</span><div><b>The Process &amp; Programming Interface</b><small>fork / exec / wait / signal, UNIX I/O, Shell, IPC, Microkernel vs Monolithic</small></div></div>
+      <div class="sc"><span class="scn">4</span><div><b>Concurrency</b><small>Thread, TCB, Thread lifecycle, Context switch, Kernel / User-level / Green threads, Scheduler activations</small></div></div>
+      <div class="sc"><span class="scn">5</span><div><b>Synchronization</b><small>Race condition, Too Much Milk, Lock, Semaphore (P/V), Condition variable, Memory barrier</small></div></div>
+      <div class="sc"><span class="scn">6</span><div><b>Scheduling</b><small>FIFO, SJF/SRTF, Round Robin, Max-Min Fairness, MFQ, ตัววัดประสิทธิภาพ</small></div></div>
+      <div class="sc"><span class="scn">7</span><div><b>Address Translation</b><small>Base &amp; Bound, Segmentation, Paging, Paged segmentation, Multi-level, TLB</small></div></div>
+      <div class="sc"><span class="scn">8</span><div><b>Virtual Memory</b><small>Cache &amp; Locality, Demand paging, Dirty/Use bits, FIFO/MIN/LRU/LFU, Belady’s Anomaly, Copy-on-write</small></div></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <h2>เลือกรูปแบบการทำ</h2>
+    <div class="modes">
+      <div class="mode">
+        <h3>โหมดสอบจริง</h3>
+        <p>ทำครบ 110 ข้อแล้วจึงกดส่งคำตอบ ระบบจะตรวจและแสดงเฉลยพร้อมคำอธิบายทั้งหมดในตอนท้าย เหมาะกับการจับเวลาเสมือนสอบจริง</p>
+        <button class="btn primary" id="btnStartExam">เริ่มทำข้อสอบ</button>
+      </div>
+      <div class="mode">
+        <h3>โหมดฝึกฝน</h3>
+        <p>เฉลยพร้อมคำอธิบายทันทีหลังตอบแต่ละข้อ เหมาะกับการทบทวนเนื้อหาไปทีละข้อ</p>
+        <button class="btn" id="btnStartPractice">เริ่มฝึกทีละข้อ</button>
+      </div>
+    </div>
+    <p class="muted hint">คีย์ลัดระหว่างทำข้อสอบ — <kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> เลือกคำตอบ · <kbd>←</kbd><kbd>→</kbd> เปลี่ยนข้อ · <kbd>F</kbd> ทำเครื่องหมาย</p>
+  </section>
+
+  <section class="card">
+    <h2>ประวัติการทำข้อสอบ</h2>
+    <div id="historyBox"></div>
+  </section>
+
+  <footer class="foot">สร้างจากสไลด์วิชา Operating Systems · ข้อมูลทั้งหมดเก็บไว้ในเบราว์เซอร์ของคุณเท่านั้น</footer>
+</main>
+
+<!-- ============ หน้าทำข้อสอบ ============ -->
+<main id="quiz" class="screen">
+  <div class="quizwrap">
+    <aside class="side">
+      <div class="sidehead">
+        <div class="timerbox"><span class="muted">เวลาที่ใช้</span><b id="timer">00:00</b></div>
+        <button class="btn ghost sm" id="btnQuit">ออก</button>
+      </div>
+      <div class="progress"><div class="progressbar"><div id="progressFill" class="progressfill"></div></div>
+        <small id="progressText" class="muted"></small></div>
+      <div id="palette" class="palette"></div>
+      <div class="legend">
+        <span><i class="sw done"></i> ตอบแล้ว</span>
+        <span><i class="sw flag"></i> ทำเครื่องหมาย</span>
+        <span><i class="sw"></i> ยังไม่ตอบ</span>
+      </div>
+      <button class="btn primary wide" id="btnSubmit">ส่งคำตอบและดูเฉลย</button>
+    </aside>
+
+    <section class="qpanel">
+      <div class="qhead">
+        <div><span id="qNum" class="qnum"></span><span id="qTopic" class="qtopic"></span></div>
+        <button class="btn ghost sm" id="btnFlag">☆ ทำเครื่องหมาย</button>
+      </div>
+      <div id="qText" class="qtext"></div>
+      <div id="choices" class="choices"></div>
+      <div id="explain" class="explain" style="display:none"></div>
+      <div class="qnav">
+        <button class="btn ghost" id="btnPrev">← ข้อก่อนหน้า</button>
+        <button class="btn" id="btnNext">ข้อถัดไป →</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+<!-- ============ หน้าผลคะแนน ============ -->
+<main id="result" class="screen">
+  <section class="card scorecard">
+    <div class="scoreleft">
+      <div class="muted">คะแนนที่ได้</div>
+      <div id="scoreBig" class="big"></div>
+      <div id="scorePct" class="pct"></div>
+      <div id="scoreGrade" class="grade"></div>
+      <div id="scoreTime" class="muted"></div>
+    </div>
+    <div class="scoreright">
+      <h3>ผลคะแนนรายบท</h3>
+      <div id="byChapter"></div>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="revhead">
+      <h2>เฉลยและคำอธิบาย</h2>
+      <div class="filters">
+        <button class="filterbtn on" data-f="all">ทั้งหมด</button>
+        <button class="filterbtn" data-f="wrong">เฉพาะข้อที่ผิด</button>
+        <button class="filterbtn" data-f="right">เฉพาะข้อที่ถูก</button>
+        <button class="filterbtn" data-f="skip">ที่ไม่ได้ตอบ</button>
+      </div>
+    </div>
+    <div id="review"></div>
+  </section>
+
+  <div class="endrow">
+    <button class="btn primary" id="btnAgain2">ทำข้อสอบชุดใหม่</button>
+    <button class="btn ghost" id="btnAgain">กลับหน้าแรก</button>
+  </div>
+</main>
+
+<script src="js/concepts.js"></script>
+<script src="js/bank.js"></script>
+<script src="js/generators.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

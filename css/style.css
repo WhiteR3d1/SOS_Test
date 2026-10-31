@@ -1,0 +1,299 @@
+/* ============================================================
+   style.css — ฝึกทำข้อสอบ Operating Systems
+   ============================================================ */
+
+:root {
+  --bg:        #f6f7fb;
+  --panel:     #ffffff;
+  --panel-2:   #f0f2f8;
+  --ink:       #1b1f2a;
+  --ink-2:     #5b6479;
+  --line:      #e2e6f0;
+  --accent:    #4f46e5;
+  --accent-2:  #eef0ff;
+  --good:      #16a34a;
+  --good-bg:   #ecfdf3;
+  --bad:       #dc2626;
+  --bad-bg:    #fef2f2;
+  --mid:       #d97706;
+  --flag:      #f59e0b;
+  --radius:    14px;
+  --shadow:    0 1px 2px rgba(16,24,40,.05), 0 8px 24px rgba(16,24,40,.06);
+}
+
+[data-theme="dark"] {
+  --bg:        #0f1117;
+  --panel:     #171a23;
+  --panel-2:   #1f2330;
+  --ink:       #e8eaf2;
+  --ink-2:     #99a1b5;
+  --line:      #2a2f3e;
+  --accent:    #818cf8;
+  --accent-2:  #232745;
+  --good:      #4ade80;
+  --good-bg:   #10231a;
+  --bad:       #f87171;
+  --bad-bg:    #2a1618;
+  --mid:       #fbbf24;
+  --flag:      #fbbf24;
+  --shadow:    0 1px 2px rgba(0,0,0,.3), 0 8px 24px rgba(0,0,0,.35);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: "IBM Plex Sans Thai", "Noto Sans Thai", "Sarabun", -apple-system,
+               "Segoe UI", system-ui, sans-serif;
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3 { line-height: 1.35; margin: 0 0 .5em; }
+h1 { font-size: 1.85rem; letter-spacing: -.02em; }
+h2 { font-size: 1.2rem; }
+h3 { font-size: 1.05rem; }
+.muted { color: var(--ink-2); }
+b { font-weight: 650; }
+
+/* ---------- แถบบน ---------- */
+.topbar {
+  position: sticky; top: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 12px; padding: 12px 20px;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.brand { display: flex; align-items: center; gap: 10px; font-weight: 650; }
+.logo {
+  display: grid; place-items: center;
+  width: 30px; height: 30px; border-radius: 9px;
+  background: var(--accent); color: #fff;
+  font-size: .78rem; font-weight: 800; letter-spacing: .02em;
+}
+.iconbtn {
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  width: 36px; height: 36px; border-radius: 10px; cursor: pointer; font-size: 1rem;
+}
+.iconbtn:hover { background: var(--panel-2); }
+
+/* ---------- โครงหน้า ---------- */
+.screen { display: none; max-width: 1180px; margin: 0 auto; padding: 24px 20px 60px; }
+.screen.active { display: block; }
+
+.hero { padding: 22px 4px 8px; }
+.lead { color: var(--ink-2); max-width: 70ch; margin: 0; }
+
+.card {
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+  padding: 22px; margin-top: 20px;
+}
+
+/* ---------- ขอบเขตเนื้อหา ---------- */
+.scope { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 12px; }
+.sc { display: flex; gap: 12px; padding: 12px; border: 1px solid var(--line); border-radius: 11px; background: var(--panel-2); }
+.sc small { display: block; color: var(--ink-2); font-size: .85rem; line-height: 1.5; }
+.scn {
+  flex: none; display: grid; place-items: center;
+  width: 28px; height: 28px; border-radius: 8px;
+  background: var(--accent); color: #fff; font-weight: 700; font-size: .85rem;
+}
+
+/* ---------- โหมด ---------- */
+.modes { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px; }
+.mode { border: 1px solid var(--line); border-radius: 12px; padding: 18px; background: var(--panel-2); }
+.mode p { color: var(--ink-2); font-size: .92rem; min-height: 4.4em; margin: 0 0 14px; }
+.hint { font-size: .85rem; margin: 16px 0 0; }
+kbd {
+  display: inline-block; padding: 1px 7px; margin: 0 2px;
+  border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px;
+  background: var(--panel); font-family: inherit; font-size: .82em;
+}
+
+/* ---------- ปุ่ม ---------- */
+.btn {
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink);
+  padding: 10px 18px; border-radius: 10px; cursor: pointer;
+  font: inherit; font-weight: 600; transition: .14s;
+}
+.btn:hover:not(:disabled) { background: var(--panel-2); border-color: var(--accent); }
+.btn:disabled { opacity: .4; cursor: not-allowed; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+.btn.ghost { background: transparent; }
+.btn.sm { padding: 6px 12px; font-size: .86rem; }
+.btn.wide { width: 100%; }
+.btn.on { background: var(--flag); border-color: var(--flag); color: #1b1f2a; }
+.row { display: flex; gap: 10px; flex-wrap: wrap; }
+
+/* ---------- ทำต่อ ---------- */
+.resume { margin-top: 20px; border: 1px solid var(--accent); background: var(--accent-2); border-radius: var(--radius); padding: 16px 18px; }
+.resume-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+
+/* ---------- ประวัติ ---------- */
+table.hist { width: 100%; border-collapse: collapse; font-size: .92rem; }
+table.hist th, table.hist td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); }
+table.hist th { color: var(--ink-2); font-weight: 600; font-size: .85rem; }
+.good { color: var(--good); } .mid { color: var(--mid); } .bad { color: var(--bad); }
+
+/* ============================================================
+   หน้าทำข้อสอบ
+   ============================================================ */
+.quizwrap { display: grid; grid-template-columns: 290px 1fr; gap: 20px; align-items: start; }
+
+.side {
+  position: sticky; top: 76px;
+  background: var(--panel); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px;
+}
+.sidehead { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.timerbox { display: flex; flex-direction: column; line-height: 1.25; }
+.timerbox b { font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.timerbox .muted { font-size: .76rem; }
+
+.progress { margin-bottom: 14px; }
+.progressbar { height: 7px; background: var(--panel-2); border-radius: 99px; overflow: hidden; margin-bottom: 5px; }
+.progressfill { height: 100%; background: var(--accent); border-radius: 99px; transition: width .25s; }
+.progress small { font-size: .8rem; }
+
+.palette {
+  display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px;
+  max-height: 46vh; overflow-y: auto; padding: 3px;
+  border: 1px solid var(--line); border-radius: 10px; background: var(--panel-2);
+}
+.pbtn {
+  aspect-ratio: 1; border: 1px solid var(--line); background: var(--panel);
+  color: var(--ink-2); border-radius: 7px; cursor: pointer;
+  font: inherit; font-size: .76rem; font-weight: 600; padding: 0;
+}
+.pbtn:hover { border-color: var(--accent); }
+.pbtn.done { background: var(--accent-2); color: var(--accent); border-color: var(--accent); }
+.pbtn.flag { box-shadow: inset 0 0 0 2px var(--flag); }
+.pbtn.cur { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0; font-size: .76rem; color: var(--ink-2); }
+.legend span { display: flex; align-items: center; gap: 5px; }
+.sw { width: 12px; height: 12px; border-radius: 4px; border: 1px solid var(--line); background: var(--panel); display: inline-block; }
+.sw.done { background: var(--accent-2); border-color: var(--accent); }
+.sw.flag { box-shadow: inset 0 0 0 2px var(--flag); }
+
+.qpanel { background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 26px; }
+.qhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--line); margin-bottom: 18px; flex-wrap: wrap; }
+.qnum { font-weight: 700; margin-right: 12px; }
+.qtopic { color: var(--ink-2); font-size: .85rem; }
+
+.qtext { font-size: 1.06rem; white-space: pre-wrap; margin-bottom: 20px; }
+.qtext pre, .exbody pre, .rex pre, .rq pre {
+  white-space: pre; overflow-x: auto; margin: 12px 0;
+  padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px;
+  background: var(--panel-2); font-family: "JetBrains Mono", ui-monospace, "Cascadia Code", Consolas, monospace;
+  font-size: .86rem; line-height: 1.55;
+}
+
+.choices { display: flex; flex-direction: column; gap: 9px; }
+.choice {
+  display: flex; align-items: flex-start; gap: 12px; width: 100%; text-align: left;
+  padding: 13px 15px; border: 1px solid var(--line); border-radius: 11px;
+  background: var(--panel); color: var(--ink); cursor: pointer; font: inherit; transition: .13s;
+}
+.choice:hover:not(:disabled) { border-color: var(--accent); background: var(--accent-2); }
+.choice:disabled { cursor: default; }
+.choice .letter {
+  flex: none; display: grid; place-items: center;
+  width: 25px; height: 25px; border-radius: 7px;
+  background: var(--panel-2); border: 1px solid var(--line);
+  font-size: .82rem; font-weight: 700;
+}
+.choice.sel { border-color: var(--accent); background: var(--accent-2); }
+.choice.sel .letter { background: var(--accent); color: #fff; border-color: var(--accent); }
+.choice.correct { border-color: var(--good); background: var(--good-bg); }
+.choice.correct .letter { background: var(--good); color: #fff; border-color: var(--good); }
+.choice.wrong { border-color: var(--bad); background: var(--bad-bg); }
+.choice.wrong .letter { background: var(--bad); color: #fff; border-color: var(--bad); }
+.ctext { flex: 1; }
+
+.explain { margin-top: 18px; padding: 16px 18px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-2); }
+.explain.ok { border-color: var(--good); background: var(--good-bg); }
+.explain.no { border-color: var(--bad); background: var(--bad-bg); }
+.verdict { font-weight: 700; margin-bottom: 8px; }
+.explain.ok .verdict { color: var(--good); }
+.explain.no .verdict { color: var(--bad); }
+.exbody { white-space: pre-wrap; font-size: .93rem; }
+
+.qnav { display: flex; justify-content: space-between; gap: 12px; margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+
+/* ============================================================
+   หน้าผลคะแนน
+   ============================================================ */
+.scorecard { display: grid; grid-template-columns: 240px 1fr; gap: 28px; align-items: center; }
+.scoreleft { text-align: center; padding-right: 24px; border-right: 1px solid var(--line); }
+.big { font-size: 2.6rem; font-weight: 800; letter-spacing: -.02em; line-height: 1.1; }
+.pct { font-size: 1.5rem; font-weight: 700; }
+.grade { font-size: .92rem; margin: 6px 0 4px; }
+
+.chrow { display: grid; grid-template-columns: 1fr 160px 110px; gap: 12px; align-items: center; padding: 6px 0; font-size: .9rem; }
+.chbar { height: 8px; background: var(--panel-2); border-radius: 99px; overflow: hidden; }
+.chfill { height: 100%; border-radius: 99px; background: var(--accent); }
+.chfill.good { background: var(--good); } .chfill.mid { background: var(--mid); } .chfill.bad { background: var(--bad); }
+.chscore { text-align: right; font-variant-numeric: tabular-nums; }
+
+.revhead { display: flex; align-items: center; justify-content: space-between; gap: 14px; flex-wrap: wrap; margin-bottom: 14px; }
+.filters { display: flex; gap: 7px; flex-wrap: wrap; }
+.filterbtn {
+  border: 1px solid var(--line); background: var(--panel); color: var(--ink-2);
+  padding: 6px 13px; border-radius: 99px; cursor: pointer; font: inherit; font-size: .85rem; font-weight: 600;
+}
+.filterbtn:hover { border-color: var(--accent); }
+.filterbtn.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+.rev { border: 1px solid var(--line); border-left: 4px solid var(--line); border-radius: 11px; padding: 16px 18px; margin-bottom: 12px; background: var(--panel-2); }
+.rev.ok { border-left-color: var(--good); }
+.rev.no { border-left-color: var(--bad); }
+.rev.skip { border-left-color: var(--mid); }
+.rev header { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.rnum { font-weight: 700; }
+.rtopic { color: var(--ink-2); font-size: .82rem; flex: 1; }
+.rstat { font-size: .78rem; font-weight: 700; padding: 2px 10px; border-radius: 99px; }
+.rstat.ok { background: var(--good-bg); color: var(--good); }
+.rstat.no { background: var(--bad-bg); color: var(--bad); }
+.rstat.skip { background: var(--panel); color: var(--mid); }
+.rq { white-space: pre-wrap; margin-bottom: 12px; }
+.ropts { list-style: none; margin: 0 0 12px; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.ropts li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px;
+  background: var(--panel); font-size: .93rem;
+}
+.ropts li .letter { flex: none; width: 22px; height: 22px; border-radius: 6px; display: grid; place-items: center; background: var(--panel-2); border: 1px solid var(--line); font-size: .78rem; font-weight: 700; }
+.ropts li.rc { border-color: var(--good); background: var(--good-bg); }
+.ropts li.rw { border-color: var(--bad); background: var(--bad-bg); }
+.tag { margin-left: auto; flex: none; font-size: .72rem; font-weight: 700; padding: 1px 9px; border-radius: 99px; }
+.tag.tc { background: var(--good); color: #fff; }
+.tag.tw { background: var(--bad); color: #fff; }
+.rex { white-space: pre-wrap; font-size: .9rem; padding: 13px 15px; border-radius: 9px; background: var(--panel); border: 1px solid var(--line); }
+.rex b:first-child { display: block; color: var(--accent); margin-bottom: 4px; }
+
+.endrow { display: flex; gap: 12px; justify-content: center; margin-top: 24px; flex-wrap: wrap; }
+.foot { text-align: center; color: var(--ink-2); font-size: .84rem; margin-top: 32px; }
+
+/* ---------- จอเล็ก ---------- */
+@media (max-width: 920px) {
+  .quizwrap { grid-template-columns: 1fr; }
+  .side { position: static; }
+  .palette { grid-template-columns: repeat(10, 1fr); max-height: 170px; }
+  .scorecard { grid-template-columns: 1fr; }
+  .scoreleft { border-right: none; border-bottom: 1px solid var(--line); padding: 0 0 18px; }
+  .chrow { grid-template-columns: 1fr 90px; }
+  .chrow .chbar { display: none; }
+}
+@media (max-width: 560px) {
+  .screen { padding: 16px 12px 48px; }
+  .card, .qpanel { padding: 16px; }
+  h1 { font-size: 1.45rem; }
+  .palette { grid-template-columns: repeat(8, 1fr); }
+}
